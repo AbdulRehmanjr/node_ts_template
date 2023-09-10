@@ -1,5 +1,5 @@
 // user.model.ts
-import { Document, Schema, model } from 'mongoose';
+import mongoose, { Document, Schema, model } from 'mongoose';
 import * as bcrypt from 'bcryptjs'
 
 export interface IUser extends Document {
@@ -7,8 +7,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   date: Date
+  role: string
 }
-
 
 const UserSchema = new Schema<IUser>({
   name: {
@@ -18,16 +18,22 @@ const UserSchema = new Schema<IUser>({
   email: {
     type: String,
     required: true,
-    unique:true
+    unique: true
   },
   password: {
     type: String,
     required: true
   },
-  date : {
-    type:Date,
-    default : Date.now
-  }
+  date: {
+    type: Date,
+    default: Date.now
+  },
+  role: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Role',
+    },
+  ],
 }, {
   timestamps: {
     createdAt: 'createdAt',
@@ -35,31 +41,29 @@ const UserSchema = new Schema<IUser>({
   }
 });
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
   var user = this;
 
-  // only hash the password if it has been modified (or is new)
   if (!user.isModified('password')) return next();
 
-  // generate a salt
-  bcrypt.genSalt(10, function(err: NativeError, salt: any) {
+
+  bcrypt.genSalt(10, function (err: NativeError, salt: any) {
+    if (err) return next(err);
+    bcrypt.hash(user.password, salt, function (err: NativeError, hash: string) {
       if (err) return next(err);
 
-      // hash the password using our new salt
-      bcrypt.hash(user.password, salt, function(err: NativeError, hash: string) {
-          if (err) return next(err);
-          // override the cleartext password with the hashed one
-          user.password = hash;
-          next();
-      });
+      user.password = hash;
+      next();
+    });
   });
 });
-UserSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-      if (err) return cb(err);
-      cb(null, isMatch);
+
+UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
   });
 };
 const user = model<IUser>("User", UserSchema);
 
-export const UserModel =user
+export const UserModel = user
