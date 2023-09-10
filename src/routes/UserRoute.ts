@@ -11,13 +11,11 @@ dotenv.config();
 
 const userRoutes: Router = express.Router()
 
-userRoutes.get('/', (_req: any, res: any) => {
 
-    res.json("hello")
-})
-
-userRoutes.post('/', [
-    body('name').isLength({ min: 3 }),
+/* The code `userRoutes.post('/', [...], createUser)` is defining a POST route for creating a new user. */
+userRoutes.post('/save', [
+    body('fistName').isLength({ min: 3 }),
+    body('lastName').isLength({min:3}),
     body('email').isEmail(),
     body('password').isLength({ min: 3 })
 ], createUser)
@@ -54,10 +52,11 @@ userRoutes.post('/login', [
 
 userRoutes.get('/getUser', fetchUser, async (req, res) => {
     const userId = req['user']
-    const user = await UserModel.findById(userId).select("-password")
+    const user = await UserModel.findById(userId).populate('role').select("-password")
     if (!user)
         return res.status(404).json({ error: `No User Found ${userId}` })
 
     return res.status(201).json(user)
 })
+
 export default userRoutes;
