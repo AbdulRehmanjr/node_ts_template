@@ -1,4 +1,4 @@
-import express, { Router  } from 'express'
+import express, { Router } from 'express'
 import { UserModel } from '../models/User'
 import { createUser } from '../controllers/UserController'
 import { body, validationResult } from 'express-validator'
@@ -13,9 +13,9 @@ const userRoutes: Router = express.Router()
 
 
 /* The code `userRoutes.post('/', [...], createUser)` is defining a POST route for creating a new user. */
-userRoutes.post('/save', [
-    body('fistName').isLength({ min: 3 }),
-    body('lastName').isLength({min:3}),
+userRoutes.post('/register', [
+    body('firstName').isLength({ min: 3 }),
+    body('lastName').isLength({ min: 3 }),
     body('email').isEmail(),
     body('password').isLength({ min: 3 })
 ], createUser)
@@ -24,6 +24,9 @@ userRoutes.post('/login', [
     body('email').isEmail(),
     body('password').isLength({ min: 5 })
 ], async (req, res) => {
+
+    console.log(`User trying to login`,req.body)
+
     const { email, password } = req.body
     const result = validationResult(req);
 
@@ -45,7 +48,10 @@ userRoutes.post('/login', [
             id: response.id
         }
     }
+
     const token = jwt.sign(jwt_data, process.env.JWT_SECERT)
+
+    console.log(token)
     return res.status(201).json({ authToken: token })
 
 })
