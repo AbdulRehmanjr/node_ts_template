@@ -1,5 +1,6 @@
 
 import { Document, Schema, model } from 'mongoose';
+import { Category } from '../classes/Category';
 
 // export interface ICategory extends Document {
 //     name: string

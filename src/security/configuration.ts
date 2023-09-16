@@ -1,10 +1,9 @@
 import cors from 'cors';
 
 const corsOptions = {
-    origin: 'http://localhost:5173', 
-  };
-  
- const configurations = cors(corsOptions)
+  origin: 'http://localhost:4200',
+};
 
- export default configurations
-  
+const configurations = cors(corsOptions)
+
+export default configurations
