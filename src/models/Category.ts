@@ -2,12 +2,6 @@
 import { Document, Schema, model } from 'mongoose';
 import { Category } from '../classes/Category';
 
-// export interface ICategory extends Document {
-//     name: string
-//     image: string
-// }
-
-
 const CategorySchema = new Schema<Category>({
     name: {
         type: String,

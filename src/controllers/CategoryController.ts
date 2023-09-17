@@ -40,22 +40,33 @@ export const createCategory = async (req: Request, res: Response, _next: NextFun
     const response = await model.save();
     logger.info("Category to database", response)
 
-    return res.status(201).json({message:"Category Saved"});
+    return res.status(201).json({ message: "Category Saved" });
 
   } catch (error) {
 
     logger.error(`Error in saving category to database ${error.message}`)
 
-    return res.status(404).json({error:error.message})
+    return res.status(404).json({ error: error.message })
   }
 }
 
-export const getAllCategories = async (req:Request,res:Response,_next:NextFunction) => {
+export const getAllCategories = async (_req: Request, res: Response, _next: NextFunction) => {
 
-  const categories:Category[] = await CategoryModel.find()
+  const categories: Category[] = await CategoryModel.find()
 
-  if(categories)
+  if (categories)
     return res.status(201).json(categories)
 
-  return res.status(404).json({error:"No Category Found"})
+  return res.status(404).json({ error: "No Category Found" })
+}
+
+export const deleteCategory = async (req: Request, res: Response, _next: NextFunction) => {
+
+  const Ids: string[] = req.params.ids.split(",")
+
+  const result = await CategoryModel.deleteMany({ _id: { $in: Ids } })
+
+  if(result)
+    return res.status(201).json({message:"Category Deleted"})
+  return res.status(404).json({error:"Some Thing went Wrong"})
 }

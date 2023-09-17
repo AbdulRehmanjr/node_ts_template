@@ -5,6 +5,7 @@ import userRoutes from './routes/UserRoute'
 import roleRoutes from './routes/RoleRoute'
 import configurations from './security/configuration'
 import categoryRoutes from './routes/CategoryRoutes'
+import productRoutes from './routes/ProductRoutes'
 
 //* database connection
 connectToMongoDb()
@@ -22,6 +23,7 @@ app.use(express.urlencoded({ extended: true,limit:'limit' }))
 app.use('/api/user',userRoutes)
 app.use('/api/role',roleRoutes)
 app.use('/api/category',categoryRoutes)
+app.use('/api/product',productRoutes)
 
 app.listen(PORT,()=>{
     console.log(`Service is running at http://localhost:${PORT}`)
