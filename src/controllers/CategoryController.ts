@@ -50,6 +50,21 @@ export const createCategory = async (req: Request, res: Response, _next: NextFun
   }
 }
 
+/**
+ * The function getAllCategories retrieves all categories from the database and returns them as a JSON
+ * response.
+ * @param {Request} _req - The `_req` parameter is of type `Request` and represents the incoming HTTP
+ * request object.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the response
+ * back to the client. It contains methods and properties that allow you to control the response, such
+ * as setting the status code, sending JSON data, or redirecting the client to another URL.
+ * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
+ * middleware function in the request-response cycle. It is used to pass control to the next middleware
+ * function.
+ * @returns a response with a status code and a JSON object. If categories are found, it will return a
+ * response with a status code of 201 and the categories array as the JSON data. If no categories are
+ * found, it will return a response with a status code of 404 and a JSON object with an error message.
+ */
 export const getAllCategories = async (_req: Request, res: Response, _next: NextFunction) => {
 
   const categories: Category[] = await CategoryModel.find()
@@ -60,6 +75,23 @@ export const getAllCategories = async (_req: Request, res: Response, _next: Next
   return res.status(404).json({ error: "No Category Found" })
 }
 
+/**
+ * The function `deleteCategory` deletes multiple categories from the database based on the provided
+ * IDs.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made by the
+ * client. It contains information such as the request headers, request body, request method, request
+ * URL, etc.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the response
+ * back to the client. It contains methods and properties that allow you to set the status code,
+ * headers, and send the response body.
+ * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
+ * middleware function in the request-response cycle. It is used to pass control to the next middleware
+ * function.
+ * @returns a response object with a status code and a JSON message. If the deletion is successful, it
+ * will return a 201 status code with a message "Category Deleted". If there is an error or the
+ * deletion is not successful, it will return a 404 status code with an error message "Some Thing went
+ * Wrong".
+ */
 export const deleteCategory = async (req: Request, res: Response, _next: NextFunction) => {
 
   const Ids: string[] = req.params.ids.split(",")

@@ -1,6 +1,6 @@
 import express, { Router } from 'express'
 import { UserModel } from '../models/User'
-import { createUser } from '../controllers/UserController'
+import { createUser, getUserInfo } from '../controllers/UserController'
 import { body, validationResult } from 'express-validator'
 import * as jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
@@ -24,8 +24,6 @@ userRoutes.post('/login', [
     body('email').isEmail(),
     body('password').isLength({ min: 5 })
 ], async (req, res) => {
-
-    console.log(`User trying to login`,req.body)
 
     const { email, password } = req.body
     const result = validationResult(req);
@@ -51,18 +49,9 @@ userRoutes.post('/login', [
 
     const token = jwt.sign(jwt_data, process.env.JWT_SECERT)
 
-    console.log(token)
     return res.status(201).json({ authToken: token })
-
 })
 
-userRoutes.get('/getUser', fetchUser, async (req, res) => {
-    const userId = req['user']
-    const user = await UserModel.findById(userId).populate('role').select("-password")
-    if (!user)
-        return res.status(404).json({ error: `No User Found ${userId}` })
-
-    return res.status(201).json(user)
-})
+userRoutes.get('/getUser', fetchUser, getUserInfo)
 
 export default userRoutes;

@@ -52,26 +52,54 @@ export const createProduct = async (req: Request, res: Response, _next: NextFunc
  * status code of 201 (success). If there are no products found, it returns a JSON response with an
  * error message and a status code of 404 (not found).
  */
-export const getAllProducts = async (req: Request, res: Response, _next: NextFunction) => {
-
-  // const response: Product[] = await ProductModel.find()
-
-  // if (response)
-  //     return res.status(201).json(response );
-  // return res.status(404).json({ error: "Error" })
+export const getAllProductsByPage = async (req: Request, res: Response, _next: NextFunction) => {
   try {
-    const page: any = req.query.page || 1 
+    const page: any = req.query.page || 1
     const itemsPerPage: any = req.query.itemsPerPage || 10
     const skipCount: number = (page - 1) * itemsPerPage;
-
-    logger.info(`Skip: ${skipCount} items ${itemsPerPage} page ${page}`)
     const products = await ProductModel.find({})
       .skip(skipCount)
       .limit(itemsPerPage);
-      
+
     res.json(products);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
+}
+
+export const getAllProducts = async (req: Request, res: Response, _next: NextFunction) => {
+  
+  const products:Product[] = await ProductModel.find()
+
+  if(products)
+    return res.status(201).json(products)
+  return res.status(404).json({message:'No Product Found'})
+}
+
+
+/**
+ * The function `getProductById` is an asynchronous function that retrieves a product by its ID and
+ * returns it as a JSON response, or returns an error if the product is not found.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made by the
+ * client. It contains information such as the request headers, request body, request method, request
+ * URL, and request parameters.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the response
+ * back to the client. It contains methods and properties that allow you to set the status code,
+ * headers, and send the response body.
+ * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
+ * middleware function in the request-response cycle. It is used to pass control to the next middleware
+ * function.
+ * @returns a JSON response with the product details if the product is found. If the product is not
+ * found, it returns a JSON response with an error message stating "Product Not Found".
+ */
+export const getProductById = async (req: Request, res: Response, _next: NextFunction) => {
+
+  const {productId} = req.params
+  const product:Product = await ProductModel.findById(productId)
+
+  if(product)
+    return res.status(201).json(product)
+  
+  return res.status(404).json({error:"Product Not Found"})
 }
