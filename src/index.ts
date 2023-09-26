@@ -6,6 +6,7 @@ import roleRoutes from './routes/RoleRoute'
 import configurations from './security/configuration'
 import categoryRoutes from './routes/CategoryRoutes'
 import productRoutes from './routes/ProductRoutes'
+import sellerRequestRoutes from './routes/seller/SellerRoutes'
 
 //* database connection
 connectToMongoDb()
@@ -24,6 +25,7 @@ app.use('/api/user',userRoutes)
 app.use('/api/role',roleRoutes)
 app.use('/api/category',categoryRoutes)
 app.use('/api/product',productRoutes)
+app.use('/api/request',sellerRequestRoutes)
 
 app.listen(PORT,()=>{
     console.log(`Service is running at http://localhost:${PORT}`)

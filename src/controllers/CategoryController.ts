@@ -3,7 +3,26 @@ import { CategoryModel } from "../models/Category"
 import logger from "../Logger";
 import cloudinary from '../services/CloudaryService'
 import { Category } from "../classes/Category";
+import { UploadApiResponse } from "cloudinary";
 
+/**
+ * This TypeScript function creates a category by uploading an image to Cloudinary and saving the
+ * category details to a database.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made to the
+ * server. It contains information such as the request headers, request body, request method, and
+ * request URL.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the HTTP
+ * response back to the client. It contains methods and properties that allow you to set the response
+ * status, headers, and body. In this code, it is used to send the success or error response back to
+ * the client.
+ * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
+ * middleware function in the request-response cycle. It is used to pass control to the next middleware
+ * function.
+ * @returns a JSON response with a status code and a message. If the file is not provided, it returns a
+ * 400 status code with an error message. If the file saving on Cloudinary fails, it returns a 404
+ * status code with an error message. If the category is successfully saved to the database, it returns
+ * a 201 status code with a success message. If there is
+ */
 export const createCategory = async (req: Request, res: Response, _next: NextFunction) => {
 
   const { name } = req.body;
@@ -14,7 +33,7 @@ export const createCategory = async (req: Request, res: Response, _next: NextFun
 
   try {
 
-    const result: any = await new Promise((resolve, reject) => {
+    const result: UploadApiResponse = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         (error, result) => {
           if (error) {

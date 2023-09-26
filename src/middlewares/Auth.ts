@@ -19,20 +19,20 @@ dotenv.config();
  */
 const fetchUser =  (req:Request, res:Response, next:NextFunction) => {
 
-    console.log(req.headers)
     const auth = req.header('Authorization')
-    console.log('Auth',auth)
     const token = auth.split(' ')[1]
-
-    if (!token)
+    if (!token){
+        
         res.status(401).send({ error: 'Token not valide' })
-    console.log('Token',token)
+    }
+        
     try {
         const data = jwt.verify(token, process.env.JWT_SECERT)
         req['user'] = data['user'].id
         next()
     } catch (error) {
          res.status(401).send({ error: "Authenication failed!" })
+         next()
     }
 
 }
