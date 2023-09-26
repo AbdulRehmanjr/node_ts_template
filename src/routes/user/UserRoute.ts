@@ -1,11 +1,11 @@
 import express, { Router } from 'express'
-import { UserModel } from '../models/User'
-import { createUser, getUserInfo } from '../controllers/UserController'
+import { UserModel } from '../../models/User'
+import { createUser, getUserInfo } from '../../controllers/user/UserController'
 import { body, validationResult } from 'express-validator'
 import * as jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs'
-import fetchUser from '../middlewares/Auth';
+import fetchUser from '../../middlewares/Auth';
 
 dotenv.config();
 

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express"
-import { CategoryModel } from "../models/Category"
-import logger from "../Logger";
-import cloudinary from '../services/CloudaryService'
-import { Category } from "../classes/Category";
+import { CategoryModel } from "../../models/Category"
+import logger from "../../Logger";
+import cloudinary from '../../services/CloudaryService'
+import { Category } from "../../classes/Category";
 import { UploadApiResponse } from "cloudinary";
 
 /**

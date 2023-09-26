@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { createCategory, deleteCategory, getAllCategories } from "../controllers/CategoryController";
+import { createCategory, deleteCategory, getAllCategories } from "../../controllers/business/CategoryController";
 
 import multer from 'multer'
 

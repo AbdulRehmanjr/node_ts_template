@@ -1,4 +1,4 @@
-import { saveRole } from "../services/RoleService";
+import { saveRole } from "../../services/RoleService";
 /**
  * The function `saveRole` saves a new role in the database and returns the response.
  * @param {string} roleName - The `roleName` parameter is a string that represents the name of the role

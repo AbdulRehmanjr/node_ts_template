@@ -8,4 +8,5 @@ export class SellerRequest {
     businessAddress:string
     businessType:string
     phone:string
+    isAccept:boolean
 }

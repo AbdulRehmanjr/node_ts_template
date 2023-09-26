@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
-import { UserModel } from "../models/User"
-import { saveUser } from "../services/UserService";
+import { UserModel } from "../../models/User"
+import { saveUser } from "../../services/UserService";
 import { Request, Response } from "express";
 // import * as jwt from 'jsonwebtoken'
 // import dotenv from 'dotenv';

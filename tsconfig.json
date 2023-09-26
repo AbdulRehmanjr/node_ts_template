@@ -9,7 +9,16 @@
     "strict": false,         
     "noImplicitAny": false,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": "./", 
+    "paths": {
+      "@controllers/*": ["controllers/*"], 
+      "@models/*": ["models/*"], 
+      "@routes/*": ["routes/*"] ,
+      "@middlewares":["middlewares/*"],
+      "@security":["security/*"],
+      "@services":["services/*"]
+    }
   },
   "include": ["src","**/*.ts"],
 }

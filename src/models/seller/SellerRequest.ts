@@ -32,6 +32,10 @@ const RequestSchema = new Schema<SellerRequest>({
     document: {
         type: String,
         required: true
+    },
+    isAccept:{
+        type:Boolean,
+        default:false
     }
 }, {
     timestamps: {
