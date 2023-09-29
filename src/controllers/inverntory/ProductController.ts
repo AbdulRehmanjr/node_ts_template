@@ -68,12 +68,29 @@ export const getAllProductsByPage = async (req: Request, res: Response, _next: N
   }
 }
 
+/**
+ * The above function is an asynchronous function that retrieves all products from a database and
+ * returns them as a JSON response.
+ * @param {Request} req - The `req` parameter represents the HTTP request object, which contains
+ * information about the incoming request such as headers, query parameters, and request body.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the response
+ * back to the client. It contains methods and properties that allow you to control the response, such
+ * as setting the status code, sending JSON data, or redirecting the client to another URL.
+ * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
+ * middleware function in the request-response cycle. It is used when you want to pass control to the
+ * next middleware function.
+ * @returns a response with a status code and a JSON object. If products are found, it will return a
+ * response with a status code of 201 and the products array as the JSON data. If no products are
+ * found, it will return a response with a status code of 404 and a JSON object with a message
+ * indicating that no product was found.
+ */
 export const getAllProducts = async (req: Request, res: Response, _next: NextFunction) => {
   
   const products:Product[] = await ProductModel.find()
 
   if(products)
     return res.status(201).json(products)
+
   return res.status(404).json({message:'No Product Found'})
 }
 

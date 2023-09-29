@@ -4,6 +4,10 @@ import { SellerRequest } from '../../classes/seller/SellerRequest';
 
 
 const RequestSchema = new Schema<SellerRequest>({
+    userId:{
+        type:String,
+        required: true
+    },
     firstName: {
         type: String,
         required: true
@@ -33,9 +37,9 @@ const RequestSchema = new Schema<SellerRequest>({
         type: String,
         required: true
     },
-    isAccept:{
-        type:Boolean,
-        default:false
+    isAccept: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: {

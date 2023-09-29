@@ -73,6 +73,21 @@ const createRequest = async (req: Request, res: Response, _next: NextFunction) =
   }
 }
 
+/**
+ * The function getAllRequests retrieves all seller requests from the database and returns them as a
+ * JSON response.
+ * @param {Request} _req - The `_req` parameter is of type `Request` and represents the incoming HTTP
+ * request object.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the response
+ * back to the client. It contains methods and properties that allow you to set the status code,
+ * headers, and send the response body.
+ * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
+ * middleware function in the request-response cycle. It is used to pass control to the next middleware
+ * function.
+ * @returns a response with a status code and JSON data. If the data is found, it will return a
+ * response with a status code of 201 and the data in JSON format. If no data is found, it will return
+ * a response with a status code of 404 and an error message in JSON format.
+ */
 const getAllRequests = async (_req: Request, res: Response, _next: NextFunction) => {
 
   const data:SellerRequest[] = await  SellerRequestModel.find()
@@ -82,4 +97,32 @@ const getAllRequests = async (_req: Request, res: Response, _next: NextFunction)
   return res.status(404).json({error:"No Request Found"})
 }
 
-export { createRequest, getAllRequests }
+/**
+ * The function `getRequestByUserId` retrieves a seller request by the user ID and returns it as a
+ * response, or returns an error if no request is found.
+ * @param {Request} req - The `req` parameter is an object that represents the HTTP request made by the
+ * client. It contains information such as the request headers, request body, request method, request
+ * URL, and other relevant information.
+ * @param {Response} res - The `res` parameter is the response object that is used to send the response
+ * back to the client. It contains methods and properties that allow you to control the response, such
+ * as setting the status code, sending JSON data, or redirecting the client to another URL.
+ * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
+ * middleware function in the request-response cycle. It is used to pass control to the next middleware
+ * function.
+ * @returns a JSON response with the seller request object if it is found, and a JSON response with an
+ * error message if no request is found.
+ */
+const getRequestByUserId = async (req: Request, res: Response, _next: NextFunction)=>{
+
+  const {userId} = req.params
+
+  const response:SellerRequest = await SellerRequestModel.findOne({userId: userId})
+
+  if(response)
+    return res.status(201).json(response)
+
+    return res.status(404).json({error:'No Request Found'})
+}
+
+
+export { createRequest, getAllRequests,getRequestByUserId }
