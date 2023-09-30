@@ -56,8 +56,7 @@ export const createCategory = async (req: Request, res: Response, _next: NextFun
 
     const model = new CategoryModel(category);
 
-    const response = await model.save();
-    logger.info("Category to database", response)
+     await model.save();
 
     return res.status(201).json({ message: "Category Saved" });
 

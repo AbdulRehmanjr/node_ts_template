@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import logger from "../../Logger";
-import { CategoryModel } from "../../models/Category";
+
 import cloudinary from "../../services/CloudaryService";
 import { SellerRequest } from "../../classes/seller/SellerRequest";
 import { SellerRequestModel } from "../../models/seller/SellerRequest";
