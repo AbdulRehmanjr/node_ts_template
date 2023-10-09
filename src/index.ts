@@ -1,26 +1,27 @@
 import {connectToMongoDb}  from './database/database'
 import express from 'express'
-
-import userRoutes from './routes/user/UserRoute'
-import roleRoutes from './routes/user/RoleRoute'
+import http, { Server } from 'http'
 import configurations from './security/configuration'
-import categoryRoutes from './routes/business/CategoryRoutes'
-import productRoutes from './routes/inverntory/ProductRoutes'
-import sellerRequestRoutes from './routes/seller/SellerRoutes'
+
 import { router } from './routes/IndexRoutes'
+import { socketConfig } from './middlewares/communication/SocketIO'
+
+
+
+const app = express()
+const server :Server = http.createServer(app);
+const PORT:number = 3000
 
 //* database connection
 connectToMongoDb()
-
-const app = express()
-
-const PORT:number = 3000
+//* socketIO server
+socketConfig(server)
 
 app.use(configurations)
 app.use(express.json({limit:'50mb'}))
 app.use(express.urlencoded({ extended: true,limit:'limit' }))
 app.use(router)
 
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log(`Service is running at http://localhost:${PORT}`)
 })

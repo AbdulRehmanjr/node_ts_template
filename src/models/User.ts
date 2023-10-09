@@ -2,16 +2,9 @@
 import mongoose, { Document, Schema, model } from 'mongoose';
 import * as bcrypt from 'bcryptjs'
 
-export interface IUser extends Document {
-  firstName: string;
-  lastName:string
-  email: string;
-  password: string;
-  date: Date
-  role: string
-}
 
-const UserSchema = new Schema<IUser>({
+
+const UserSchema = new Schema({
   firstName: {
     type: String,
     required: true
@@ -24,6 +17,10 @@ const UserSchema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true
+  },
+  profile:{
+    type:String,
+    required:true,
   },
   password: {
     type: String,
@@ -69,6 +66,6 @@ UserSchema.methods.comparePassword = function (candidatePassword, cb) {
     cb(null, isMatch);
   });
 };
-const user = model<IUser>("User", UserSchema);
+const user = model("User", UserSchema);
 
 export const UserModel = user

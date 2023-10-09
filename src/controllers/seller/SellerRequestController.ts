@@ -6,21 +6,7 @@ import { SellerRequest } from "../../classes/seller/SellerRequest";
 import { SellerRequestModel } from "../../models/seller/SellerRequest";
 import { UploadApiResponse } from "cloudinary";
 
-/**
- * This function handles a request to create a seller request, which includes validating the request
- * data, uploading a file to Cloudinary, saving the request data to a database, and returning a
- * response.
- * @param {Request} req - The `req` parameter is the request object that contains information about the
- * incoming HTTP request, such as headers, query parameters, and request body.
- * @param {Response} res - The `res` parameter is the response object that is used to send the HTTP
- * response back to the client. It is an instance of the `Response` class, which provides methods for
- * setting the response status code, headers, and body.
- * @param {NextFunction} _next - The `_next` parameter is a function that represents the next
- * middleware function in the request-response cycle. It is used to pass control to the next middleware
- * function.
- * @returns The function `createRequest` returns a response with the appropriate status code and JSON
- * data. The possible return values are:
- */
+
 const createRequest = async (req: Request, res: Response, _next: NextFunction) => {
 
   const data: SellerRequest = JSON.parse(req.body['seller'])

@@ -1,15 +1,13 @@
 
 import { Document, Schema, model } from 'mongoose';
 
-export interface IRole extends Document {
-  authority:string
-}
 
-const RoleSchema = new Schema<IRole>({
-    authority: {
+
+const RoleSchema = new Schema({
+  authority: {
     type: String,
     required: true,
-    unique:true
+    unique: true
   },
 }, {
   timestamps: {
@@ -18,6 +16,6 @@ const RoleSchema = new Schema<IRole>({
   }
 });
 
-const role = model<IRole>("Role", RoleSchema);
+const role = model("Role", RoleSchema);
 
 export const RoleModel = role

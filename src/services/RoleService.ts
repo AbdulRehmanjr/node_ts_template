@@ -20,13 +20,7 @@ export const saveRole = async (roleName: string) => {
     }
 }
 
-/**
- * The function `findRole` is an asynchronous function that fetches a role based on the provided role
- * name and returns it.
- * @param {string} roleName - The `roleName` parameter is a string that represents the name of the role
- * you want to find.
- * @returns the role object that is found in the database.
- */
+
 export const findRoleId = async (roleName:string )=> {
     console.log(`Fetching role with ${roleName}`)
     try {

@@ -27,7 +27,7 @@ const generateProductCode = () => {
 }
 
 
-export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
+export const createProduct = async (req: Request, res: Response, _next: NextFunction) => {
 
   const reqData: Product = JSON.parse(req.body['product'])
   const reqFile :Express.Multer.File = req.file
@@ -36,7 +36,6 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
     return res.status(400).json({ error: 'No file provided.' });
 
   try {
-
     const result: UploadApiResponse = await new Promise((resolve, reject) => {
       cloudinary.uploader.upload_stream(
         (error, result) => {
@@ -65,7 +64,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
 
     const model = new ProductModel(data)
 
-     await model.save();
+    await model.save();
 
     return res.status(201).json({ message: "Product Saved" });
 

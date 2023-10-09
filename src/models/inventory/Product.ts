@@ -1,15 +1,6 @@
 
 import mongoose, { Schema, model } from 'mongoose';
 
-/**
- *  name:string
-    code:string
-    category:Category
-    imageSrc:string
-    price:number
-    quantity:number
-    rating:number
- */
 
 const ProductSchema = new Schema({
     name: {

@@ -6,19 +6,19 @@ import * as jwt from 'jsonwebtoken'
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs'
 import fetchUser from '../../middlewares/Auth';
+import multer from 'multer'
 
 dotenv.config();
+
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage }); 
 
 const userRoutes: Router = express.Router()
 
 
-/* The code `userRoutes.post('/', [...], createUser)` is defining a POST route for creating a new user. */
-userRoutes.post('/register', [
-    body('firstName').isLength({ min: 3 }),
-    body('lastName').isLength({ min: 3 }),
-    body('email').isEmail(),
-    body('password').isLength({ min: 3 })
-], createUser)
+
+
+userRoutes.post('/register', upload.single('profile'), createUser)
 
 userRoutes.post('/login', [
     body('email').isEmail(),
@@ -30,9 +30,9 @@ userRoutes.post('/login', [
 
     if (!result.isEmpty())
         return res.status(404).json({ error: result.array() })
-
+    console.log()
     const response = await UserModel.findOne({ email })
-
+    
     if (!response)
         return res.status(404).json({ error: `User not found with email: ${email}` })
 

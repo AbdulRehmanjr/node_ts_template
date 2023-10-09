@@ -5,8 +5,8 @@ const logger = winston.createLogger({
   level: 'info', // Set the minimum log level to capture
   format: winston.format.json(), // Log entries as JSON objects
   transports: [
-    new winston.transports.File({ filename: '/project/error.log', level: 'error' }), // Log errors to error.log
-    new winston.transports.File({ filename: '/project/combined.log' }), // Log all levels to combined.log
+    new winston.transports.File({ filename: '/LOGGING/pakbiz/error.log', level: 'error' }), // Log errors to error.log
+    new winston.transports.File({ filename: '/LOGGING/pakbiz/combined.log' }), // Log all levels to combined.log
   ],
 });
 logger.add(new winston.transports.Console({
