@@ -2,31 +2,55 @@
 import { Server, Socket } from 'socket.io';
 
 import dotenv from 'dotenv'
+import { Message } from '../../classes/communication/Message';
+import logger from '../../Logger';
 
 dotenv.config()
 
+interface IRoom {
+    socketId: string
+    userId: string
+}
 export const socketConfig = (server: any) => {
-    const io: Server = new Server(server,{
-        cors:{
-            origin:process.env.ORIGIN
+
+    
+    const io: Server = new Server(server, {
+        cors: {
+            origin: process.env.ORIGIN
         }
     });
 
-    io.on('connection', (socket: Socket) => {
+    const onlineUsers = new Map()
+
+    const rooms = {};
+
+    io.on('connection', (socket) => {
         console.log('A user connected');
 
-        // socket.on('send_message', async (data: { text: string; user: string }) => {
-        //     const { text, user } = data;
-        //     // Handle your message logic and emit messages as needed.
-        //     io?.emit('receive_message', { text, user });
-        // });
 
-        // socket.on('disconnect', () => {
-        //     console.log('A user disconnected');
-        // });
+        socket.on('add_user', (userId) => {
+            console.log('userId',userId)
+            onlineUsers.set(userId,socket.id)
+            console.log(onlineUsers)
+            console.log(`User ${socket.id} joined room ${userId}`);
+        });
 
-        socket.on('disconnect',(reason)=>{
-            console.log(reason)
-          })
+        socket.on('send_message', (message) => {
+
+            console.log(onlineUsers)
+            console.log('Received message:', message);
+
+            const receiverSocketId = onlineUsers.get(message.receiverId)
+            console.log("reciverId",receiverSocketId)
+            if (receiverSocketId) {
+                // Send the message to the specific receiver
+                socket.to(receiverSocketId).emit('receive_message', message);
+            }
+        });
+
+        socket.on('disconnect', () => {
+            console.log('A user disconnected');
+        });
     });
+
 }
