@@ -1,16 +1,13 @@
 
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 
 import dotenv from 'dotenv'
 import { Message } from '../../classes/communication/Message';
-import logger from '../../Logger';
+import { MessageModel } from '../../models/communication/Message';
+
 
 dotenv.config()
 
-interface IRoom {
-    socketId: string
-    userId: string
-}
 export const socketConfig = (server: any) => {
 
     
@@ -22,30 +19,20 @@ export const socketConfig = (server: any) => {
 
     const onlineUsers = new Map()
 
-    const rooms = {};
-
     io.on('connection', (socket) => {
-        console.log('A user connected');
-
+        
 
         socket.on('add_user', (userId) => {
-            console.log('userId',userId)
             onlineUsers.set(userId,socket.id)
             console.log(onlineUsers)
-            console.log(`User ${socket.id} joined room ${userId}`);
         });
 
-        socket.on('send_message', (message) => {
-
-            console.log(onlineUsers)
-            console.log('Received message:', message);
-
+        socket.on('send_message', async (message:Message) => {
+            const respone = new MessageModel(message)
+            await respone.save()
             const receiverSocketId = onlineUsers.get(message.receiverId)
-            console.log("reciverId",receiverSocketId)
-            if (receiverSocketId) {
-                // Send the message to the specific receiver
+            if (receiverSocketId) 
                 socket.to(receiverSocketId).emit('receive_message', message);
-            }
         });
 
         socket.on('disconnect', () => {

@@ -1,20 +1,24 @@
 
-import mongoose, { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 
 const MesssageSchema = new Schema({
 
-    sender:{
+    senderId:{
         type:String,
-        require
+        required:true
     },
-    receiver:{
+    receiverId:{
         type:String,
-        require
+        required:true
     },
     content: {
        type:String,
-       require
+       required:true
+    },
+    time:{
+      type:String,
+      required:true  
     },
     isRead:{
         type:Boolean,
@@ -29,4 +33,4 @@ const MesssageSchema = new Schema({
 
 const message = model("Message", MesssageSchema);
 
-export const MessageModels = message
+export const MessageModel = message

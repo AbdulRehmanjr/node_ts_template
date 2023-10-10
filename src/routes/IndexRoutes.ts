@@ -5,6 +5,7 @@ import sellerRequestRoutes from "./seller/SellerRoutes"
 import roleRoutes from "./user/RoleRoute"
 import userRoutes from "./user/UserRoute"
 import chatListRoutes from "./communication/ChatListRoutes"
+import messageRoutes from "./communication/MessageRoutes"
 
 
 
@@ -17,7 +18,7 @@ router.use('/api/category',categoryRoutes)
 router.use('/api/product',productRoutes)
 router.use('/api/request',sellerRequestRoutes)
 router.use('/api/chatlist',chatListRoutes)
-
+router.use('/api/message',messageRoutes)
 
 
 export { router }

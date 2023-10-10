@@ -39,8 +39,6 @@ export const addChatList = async (req: Request, res: Response, _next: NextFuncti
         const sender = await UserModel.findById(data.sender);
         const receiver = await UserModel.findById(data.receiver);
         
-      
-        console.log(sender,receiver)
         if (!sender || !receiver) {
             return res.status(404).json({ error: "Sender or receiver user not found" });
         }
@@ -48,18 +46,17 @@ export const addChatList = async (req: Request, res: Response, _next: NextFuncti
         // Check if the receiver is already in the sender's chat list
         const isReceiverInSenderChatList = senderChatList.list.includes(receiver._id);
 
-        if (!isReceiverInSenderChatList) {
-            // If the receiver is not in the sender's chat list, add them
+        // If the receiver is not in the sender's chat list, add them
+        if (!isReceiverInSenderChatList)     
             senderChatList.list.push(receiver._id);
-        }
+        
 
         // Check if the sender is already in the receiver's chat list
         const isSenderInReceiverChatList = receiverChatList.list.includes(sender._id);
 
-        if (!isSenderInReceiverChatList) {
-            // If the sender is not in the receiver's chat list, add them
+        // If the sender is not in the receiver's chat list, add them
+        if (!isSenderInReceiverChatList) 
             receiverChatList.list.push(sender._id);
-        }
 
         // Save or update both chat lists
         await senderChatList.save();

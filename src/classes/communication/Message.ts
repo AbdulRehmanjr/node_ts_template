@@ -3,5 +3,6 @@ export class Message{
     senderId:string
     receiverId:string
     content:string
-    type:string 
+    time:string 
+    isRead:boolean = false
 }
